@@ -1,11 +1,12 @@
 {
   "name": "tunely",
-  "version": "1.0.31A",
+  "version": "1.0.31-A",
   "description": "An app for tracking your music collection",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "bower install"
+    "postinstall": "bower install",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -22,5 +23,8 @@
     "bower": "^1.7.9",
     "express": "^4.13.3",
     "mongoose": "^4.6.0"
+  },
+  "directories": {
+    "doc": "docs"
   }
 }
