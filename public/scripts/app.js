@@ -8,9 +8,20 @@ angular
   .module('tunely', [])
   .controller('AlbumsIndexController', AlbumsIndexController);
 
+AlbumsIndexController.$inject = ['$http'];
 
-function AlbumsIndexController () {
+function AlbumsIndexController ($http) {
   var vm = this;
+
+  $http({
+    method: 'GET',
+    url: '/api/albums'
+  }).then(function successCallback(res){
+    res.json(res);
+  }, function errCallback(res){
+    console.log('err getting data');
+  });
+
   vm.newAlbum = {};
 
   vm.newAlbum = {
@@ -18,17 +29,6 @@ function AlbumsIndexController () {
       artistName: 'Beastie Boys'
   };
   vm.albums = [
-  {
-    name: 'Coming Home',
-    artistName: 'Leon Bridges'
-  },
-  {
-    name: 'Are We There',
-    artistName: 'Sharon Van Etten'
-  },
-  {
-    name: 'The Queen is Dead',
-    artistName: 'The Smiths'
-  }
+
 ];
 }
