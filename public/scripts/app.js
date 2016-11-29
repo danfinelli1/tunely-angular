@@ -5,33 +5,49 @@
  */
 
 angular
-  .module('tunely', [])
-  .controller('AlbumsIndexController', AlbumsIndexController);
-  // ^ the first argument is a string naming the controller,
-  // the second argument is a function that defines the capacities
-  // of the controller.
+    .module('tunely', [])
+    .controller('AlbumsIndexController', AlbumsIndexController);
+// ^ the first argument is a string naming the controller,
+// the second argument is a function that defines the capacities
+// of the controller.
+AlbumsIndexController.$inject = ['$http'];
 
-function AlbumsIndexController () {
-  var vm = this;
-  vm.newAlbum = {};
+function AlbumsIndexController($http) {
+    var vm = this;
 
-  vm.newAlbum = {
-      name: 'Viva Hate',
-      artistName: 'Morrissey'
-  };
+    $http({
+        method: 'GET',
+        url: '/api/albums'
+    }).then(successCallback, errorCallback);
 
-  vm.albums = [
-    {
-      name: 'Coming Home',
-      artistName: 'Leon Bridges'
-    },
-    {
-      name: 'Are We There',
-      artistName: 'Sharon Van Etten'
-    },
-    {
-      name: 'The Queen is Dead',
-      artistName: 'The Smiths'
+    vm.newAlbum = {
+        name: 'Viva Hate',
+        artistName: 'Morrissey'
+    };
+
+    vm.albums = [];
+
+    vm.createAlbum = function (album){
+      console.log(album);
+        $http({
+          method: 'POST',
+          url: '/api/albums',
+          data: album
+        }).then(succPost, errorCallback);
     }
-  ];
+
+    function succPost(res){
+      console.log('it made post req');
+      vm.albums.push(res.data);
+    }
+
+    function successCallback(res){
+
+      vm.albums = res.data;
+      console.log(res.data);
+    }
+    function errorCallback(res){
+      console.log('didnt maek it');
+    }
+
 }
