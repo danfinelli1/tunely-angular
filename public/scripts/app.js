@@ -39,15 +39,20 @@ function AlbumsIndexController ($http) {
     });
   }
 
-  vm.deleteAlbum = function (album) {
+  vm.deleteAlbum = function (deleteAlbum) {
   $http({
     method: 'DELETE',
-    url: '/api/albums/'+ album._id
-  }).then(function successCallback(deletedAlbum) {
-    var index = vm.albums.indexOf(deletedAlbum);
-    vm.albums.splice(index, 1);
-  }, function errorCallback(response) {
+    url: '/api/albums/'+ deleteAlbum._id
+  }).then(successDelete, function errorCallback(response) {
     console.log('There was an error deleting the data', response);
   });
 }
+  function successDelete(response){
+      var deletedAlbum = vm.albums.find(function(album){
+        return album._id === response.data._id;
+      });
+      var index = vm.albums.indexOf(deletedAlbum);
+      vm.albums.splice(index, 1);
+
+  }
 }
