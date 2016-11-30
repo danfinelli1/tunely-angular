@@ -47,6 +47,25 @@ function AlbumsIndexController ($http) {
     console.log('There was an error deleting the data', response);
   });
 }
+  vm.editAlbum = function (album) {
+  $http({
+    method: 'PUT',
+    url: '/api/albums/'+ album._id,
+    data: album
+  }).then(successUpdate, function errorCallback(response) {
+    console.log('There was an error deleting the data', response);
+  });
+}
+  function successUpdate(response){
+    console.log(response.data);
+    var updatedAlbum = vm.albums.find(function(album){
+      return album._id === response.data._id;
+    });
+    var index = vm.albums.indexOf(updatedAlbum);
+    vm.albums[index].name = response.data.name;
+    console.log('this is vm.albums.name '+vm.albums[index]._id);
+    console.log('this is index '+ index);
+  }
   function successDelete(response){
       var deletedAlbum = vm.albums.find(function(album){
         return album._id === response.data._id;
